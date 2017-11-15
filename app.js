@@ -10,7 +10,8 @@ const EXPRESS = require('express');
 // const HTTP = require('http');
 // const ROUTER = require('./router.js');
 const BODY_PARSER = require('body-parser');
-const EXPRESSBRUTE = require('express-brute');
+const EXPRESSBRUTE = require('express-brute'); 
+const FORMIDABLE = require('formidable');
 
 
 let port = 3000;
@@ -61,7 +62,23 @@ app.get('/', (_req, _res) => {
 app.post('/compile', bruteforce.prevent, (_req, _res)=>{
 
 	console.log(_req.body);
-	let language = _req.body.language
+	/** Handling File Upload **/
+	let form = new FORMIDABLE.IncomingForm();
+	let language;
+	form.encoding = 'utf-8';
+	form.uploadDir = "/tmp/"
+	form.parse(_req, (err, fields, file) => {
+		log('form.parse', "Parsing file", _req);
+		language = _req.body.language
+		console.log(file.source.name)
+		console.log(file.source.path)
+		// console.log(_req.body)
+		// console.log(language);
+	})
+
+	// console.log("Reach")
+	// console.log(_req.body);
+	// let language = _req.body.language
 	_res.send({test:{
 		language
 	}})
