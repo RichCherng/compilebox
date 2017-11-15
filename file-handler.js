@@ -20,7 +20,8 @@ let parse = function(_req){
 
 	
 	form.parse(_req, (err, fields, file) => {
-	
+
+		console.log(_req.body);	
 		console.log(file.source.name);
 		console.log(file.source.path);
 
@@ -30,7 +31,7 @@ let parse = function(_req){
 		FS.rename(file.source.path, PATH.join(form.uploadDir, file.source.name), (err)=>{
 			
 			if (err) throw err;
-			console.log('renamed complated');
+			console.log('renamed completed');
 		});
 	});
 
