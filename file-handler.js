@@ -8,7 +8,7 @@ const FS = require('fs');
 
 let parse = function(_req){
 
-	console.log("tets");	
+	console.log("parse");	
 	// create an incoming form object
 	let form = new FORMIDABLE.IncomingForm();
 	
@@ -21,7 +21,8 @@ let parse = function(_req){
 	
 	form.parse(_req, (err, fields, file) => {
 
-		console.log(_req.body);	
+		// console.log(_req.body);	
+		// console.log(file.language);
 		console.log(file.source.name);
 		console.log(file.source.path);
 
