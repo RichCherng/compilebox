@@ -12,7 +12,8 @@ const EXPRESS = require('express');
 const BODY_PARSER = require('body-parser');
 const EXPRESSBRUTE = require('express-brute'); 
 //const FORMIDABLE = require('formidable');
-const fileHandler = require('./file-handler.js');
+// const fileHandler = require('./file-handler.js');
+const fileHandler = require('./file-reader/index');
 
 
 let port = 3000;
