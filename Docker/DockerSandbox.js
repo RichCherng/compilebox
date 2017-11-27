@@ -40,8 +40,11 @@ DockerSandbox.prototype.run = function(success){
 
 
 
-Docker.Sandbox.prototype.prepare = function(success){
+DockerSandbox.prototype.prepare = function(success){
 
 
 	let sandbox = this;
 }
+
+
+module.exports = DockerSandbox;
