@@ -4,7 +4,7 @@
   "description": "Web server that use docker to compile code",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha --reporter spec"
   },
   "repository": {
     "type": "git",
@@ -21,5 +21,10 @@
     "express": "^4.16.2",
     "express-brute": "^1.0.1",
     "formidable": "^1.1.1"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1",
+    "request": "^2.83.0"
   }
 }
