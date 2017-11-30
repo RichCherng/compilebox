@@ -1,4 +1,8 @@
 
+/*
+*	Purpose of this test file is to help with the development of the project by running a simple test run such as making sure the server is running and uploading file for compile.
+* 	- This test will evolve over time depend on what the development need
+*/
 
 
 let expect = require('chai').expect;
