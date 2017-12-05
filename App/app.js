@@ -73,14 +73,14 @@ app.post('/compile/:lang', (_req, _res)=>{
 	console.log("Received /Compile");
 
 	let language = _req.params.lang;
-	_res.json({ test: language});
 
 	console.log(FileHandler);
 	let fileHandler = new FileHandler();
 
-	// fileHandler.parse(_req);
+	fileHandler.parse(_req);
 
 
+	_res.json({ test: language});
 
 	/** Handling File Upload **/
 /*

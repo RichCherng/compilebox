@@ -41,7 +41,6 @@ describe('Server' ,() =>{
 		beforeEach( (done)=> {
 			requestParams = {
 				url: `${URL}`,
-				// formData: { source: fs.createReadStream(file) },
 			}
 			// done();
 
@@ -98,8 +97,8 @@ describe('Server' ,() =>{
 			it('upload java file and returns status code 200', (done)=> {
 
 				request.post(requestParams, (error, response, body) => {
-					console.log("Check");
-					console.log("Test first");
+					// console.log("Check");
+					// console.log("Test first");
 					expect(response.statusCode).to.equal(200);
 					done();	
 				});

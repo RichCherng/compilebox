@@ -8,7 +8,7 @@ const FS = require('fs');
 
 
 let FileHandler = function() {
-	
+
 }
 
 FileHandler.prototype.parse = function(_req){
@@ -32,10 +32,13 @@ FileHandler.prototype.parse = function(_req){
 	
 	form.parse(_req, (err, fields, file) => {
 
+		if(err){
+			console.log(err);
+		}
 		// console.log(_req.body);	
 		// console.log(file.language);
-		// console.log(file.source.name);
-		// console.log(file.source.path);
+		console.log(file.source.name);
+		console.log(file.source.path);
 
 		// console.log(file.input.name);
 		// console.log(file.input.path);
