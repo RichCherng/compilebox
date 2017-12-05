@@ -3,6 +3,4 @@
 const fileReader = require('./file-handler')
 
 
-module.exports = {
-	parse: fileReader.parse
-}
+module.exports = fileReader
