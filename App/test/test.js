@@ -8,7 +8,7 @@
 let expect = require('chai').expect;
 let server = require('../app');
 let request = require('request');
-
+let fs = require('fs');
 
 
 const URL = "http://localhost:3000/"
@@ -21,7 +21,7 @@ describe('Server' ,() =>{
 
 		it("returns status 200", (done) =>{
 			request(URL, (error, response, body) =>{
-				console.log(response.statusCode);
+				//console.log(response.statusCode);
 				expect(response.statusCode).to.equal(200);
 				done();
 			});
@@ -36,6 +36,48 @@ describe('Server' ,() =>{
 			});
 		})
 	})
+
+	// Upload file for to compile
+	describe('Test Compile', () => {
+		describe('Test Java', ()=> {
+			let requestParams;
+			beforeEach( (done) => {
+
+
+				//console.log("This is beforeEach");
+				let file = './test/BinarySearch.java';
+				
+				fs.stat(file, function(err, stat){
+					if(err == null){
+						console.log('File Exists');
+
+						requestParams = {
+							url: `${URL}compile/java`,
+							formData: { source: fs.createReadStream(file) },
+						}
+					} else {
+						console.log("Test File does not exists");
+					}
+					done();
+				});
+
+
+				//console.log("Here");
+				//console.log(__dirname);
+				//console.log(requestParams.formData);
+			});
+		
+			it('upload java file and returns status code 200', (done)=> {
+				//console.log("Test");
+				request.post(requestParams, (error, response, body) => {
+					//console.log("Test first");
+					expect(response.statusCode).to.equal(200);
+					done();
+				});
+			});	
+		});
+
+	}); // End upload file
 
 
 
