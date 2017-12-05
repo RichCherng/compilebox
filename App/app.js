@@ -56,14 +56,15 @@ app.use( (_req, _res, _next) => {
 
 
 app.get('/', (_req, _res) => {
+	console.log("Default Stament");
 	_res.json({ message: 'This is the REST API'});
-
+	
 });
 
 
-app.post('/compile', bruteforce.prevent, (_req, _res)=>{
-
-	console.log(_req.body);
+app.post('/compile/:lang', bruteforce.prevent, (_req, _res)=>{
+	console.log("Received /Compile");
+	console.log(_req.params.lang);
 	let language = _req.body.language;
 
 	fileHandler.parse(_req);
