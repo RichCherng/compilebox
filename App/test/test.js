@@ -84,7 +84,7 @@ describe('Server' ,() =>{
 						console.log(file + " exists");
 						requestParams = {
 							url: `${URL}compile/java`,
-							formData: { source: fs.createReadStream(file) },
+							formData: { source: fs.readFileSync(file) },
 
 						};
 					} else {
@@ -97,8 +97,8 @@ describe('Server' ,() =>{
 			it('upload java file and returns status code 200', (done)=> {
 
 				request.post(requestParams, (error, response, body) => {
-					// console.log("Check");
-					// console.log("Test first");
+					console.log("Check");
+					console.log("Test first");
 					expect(response.statusCode).to.equal(200);
 					done();	
 				});
