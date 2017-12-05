@@ -74,35 +74,62 @@ describe('Server' ,() =>{
 		describe('Test Java', ()=> {
 
 
-			let requestParams;
-
+			let options;
 			beforeEach( (done)=>{
-				let file = './test/BinarySearch.java';
+				let file = "./test/BinarySearch.java";
 
-				fs.stat(file, (err, stat) => {
-					if(err == null){
-						console.log(file + " exists");
-						requestParams = {
-							url: `${URL}compile/java`,
-							formData: { source: fs.readFileSync(file) },
-
-						};
-					} else {
-						console.log("Test File does not exists");
+				options = {
+					method: 'POST',
+					url: `${URL}compile/java`,
+					headers: {
+						'cache-control' : 'no-cache',
+						'content-type': 'multipart/form-data'
+					},
+					formData: {
+						source:{
+							value: 'fs.createReadStream("BinarySearch.java")',
+							options: { filename: 'BinarySearch.java', contentType: null}
+						}
 					}
+				};
+				done();
+			});
+			
+			it('upload java file and returns status code 200', (done)=> {
+				request(options, (error, response, body) => {
+					expect(response.statusCode).to.equal(200);
 					done();
 				});
 			});
 
-			it('upload java file and returns status code 200', (done)=> {
 
-				request.post(requestParams, (error, response, body) => {
-					console.log("Check");
-					console.log("Test first");
-					expect(response.statusCode).to.equal(200);
-					done();	
-				});
-			});
+			// beforeEach( (done)=>{
+			// 	let file = './test/BinarySearch.java';
+
+			// 	fs.stat(file, (err, stat) => {
+			// 		if(err == null){
+			// 			console.log(file + " exists");
+			// 			requestParams = {
+			// 				url: `${URL}compile/java`,
+			// 				formData: { source: fs.readFileSync(file) },
+
+			// 			};
+			// 		} else {
+			// 			console.log("Test File does not exists");
+			// 		}
+			// 		done();
+			// 	});
+			// });
+
+			// it('upload java file and returns status code 200', (done)=> {
+
+			// 	request.post(requestParams, (error, response, body) => {
+			// 		console.log("Check");
+			// 		console.log("Test first");
+			// 		expect(response.statusCode).to.equal(200);
+			// 		done();	
+			// 	});
+			// });
 
 
 			// 	// doRequest(requestParams).then( (succ)=>{
