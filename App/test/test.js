@@ -27,8 +27,41 @@ describe('Server' ,() =>{
 			});
 		})
 
-		it("returns default message", (done) =>{
+		it("returns default message for POST", (done) =>{
 			request(URL, (error, response, body) => {
+				// console.log(response.body);
+				expect(response.body).to.equal('{"message":"This is the REST API"}');
+				// expect(response.statusCode).to.equal(0);
+				done();
+			});
+		})
+
+
+		let requestParams
+		beforeEach( (done)=> {
+			requestParams = {
+				url: `${URL}`,
+				// formData: { source: fs.createReadStream(file) },
+			}
+			// done();
+
+			let file = './test/BinarySearch.java';
+			fs.stat(file, function(err, stat){
+				if(err == null){
+					console.log('File Exists');
+
+					requestParams = {
+						url: `${URL}`,
+					}
+				} else {
+					console.log("Test File does not exists");
+				}
+				done();
+			});
+		});
+
+		it("returns default message", (done) =>{
+			request.post(requestParams, (error, response, body) => {
 				// console.log(response.body);
 				expect(response.body).to.equal('{"message":"This is the REST API"}');
 				// expect(response.statusCode).to.equal(0);
@@ -40,41 +73,47 @@ describe('Server' ,() =>{
 	// Upload file for to compile
 	describe('Test Compile', () => {
 		describe('Test Java', ()=> {
+
+
 			let requestParams;
-			beforeEach( (done) => {
 
-
-				//console.log("This is beforeEach");
+			beforeEach( (done)=>{
 				let file = './test/BinarySearch.java';
-				
-				fs.stat(file, function(err, stat){
-					if(err == null){
-						console.log('File Exists');
 
+				fs.stat(file, (err, stat) => {
+					if(err == null){
+						console.log(file + " exists");
 						requestParams = {
 							url: `${URL}compile/java`,
 							formData: { source: fs.createReadStream(file) },
-						}
+
+						};
 					} else {
 						console.log("Test File does not exists");
 					}
 					done();
 				});
-
-
-				//console.log("Here");
-				//console.log(__dirname);
-				//console.log(requestParams.formData);
 			});
-		
+
 			it('upload java file and returns status code 200', (done)=> {
-				//console.log("Test");
+
 				request.post(requestParams, (error, response, body) => {
-					//console.log("Test first");
+					console.log("Check");
+					console.log("Test first");
 					expect(response.statusCode).to.equal(200);
-					done();
+					done();	
 				});
-			});	
+			});
+
+
+			// 	// doRequest(requestParams).then( (succ)=>{
+			// 	// 	console.log("Test");
+			// 	// 	console.log(succ.body);
+			// 	// 	expect(succ.res.statusCode).to.equal(200);
+			// 		done();
+			// 	// });
+
+			// });	
 		});
 
 	}); // End upload file
@@ -90,3 +129,26 @@ describe('Server' ,() =>{
 	}) // End close server
 
 });
+
+
+
+function doRequest(param){
+	console.log("Making Promise");
+	return new Promise(function(resolve, reject) {
+		console.log("Making Request");
+		request.post(param, function(error, res, body) {
+			// if(!error && res.statusCode == 200) {
+			if(!error){
+				console.log("===============================Resolve");
+				// console.log(body);
+				let success = {
+					res,
+					body,
+				}
+				resolve(success);
+			} else {
+				reject(error);
+			}
+		})
+	})
+}

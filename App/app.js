@@ -13,7 +13,7 @@ const BODY_PARSER = require('body-parser');
 const EXPRESSBRUTE = require('express-brute'); 
 //const FORMIDABLE = require('formidable');
 // const fileHandler = require('./file-handler.js');
-const fileHandler = require('./file-reader/index');
+const FileHandler = require('./file-reader/index');
 
 
 let port = 3000;
@@ -62,12 +62,26 @@ app.get('/', (_req, _res) => {
 });
 
 
-app.post('/compile/:lang', bruteforce.prevent, (_req, _res)=>{
-	console.log("Received /Compile");
-	console.log(_req.params.lang);
-	let language = _req.body.language;
+app.post('/', (_req, _res) => {
+	console.log("Default Stament");
+	_res.json({ message: 'This is the REST API'});
+	
+});
 
-	fileHandler.parse(_req);
+//app.post('/compile/:lang', bruteforce.prevent, (_req, _res)=>{
+app.post('/compile/:lang', (_req, _res)=>{
+	console.log("Received /Compile");
+
+	let language = _req.params.lang;
+	_res.json({ test: language});
+
+	console.log(FileHandler);
+	let fileHandler = new FileHandler();
+
+	// fileHandler.parse(_req);
+
+
+
 	/** Handling File Upload **/
 /*
 	let form = new FORMIDABLE.IncomingForm();
@@ -86,9 +100,12 @@ app.post('/compile/:lang', bruteforce.prevent, (_req, _res)=>{
 	// console.log("Reach")
 	// console.log(_req.body);
 	// let language = _req.body.language
-	_res.send({test:{
-		language
-	}})
+
+
+	// _res.send({test:{
+	// 	language
+	// }})
+	
 });
 
 
