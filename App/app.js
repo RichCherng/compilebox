@@ -74,37 +74,15 @@ app.post('/compile/:lang', (_req, _res)=>{
 
 	let language = _req.params.lang;
 
-	console.log(FileHandler);
+	/** Handling File Upload **/
 	let fileHandler = new FileHandler();
 
-	fileHandler.parse(_req);
+	fileHandler.parse(_req).then( (file) => {
+		console.log(file);
+	});
 
+	_res.json({ test: language, fileName: fileHandler.fileName});
 
-	_res.json({ test: language});
-
-	/** Handling File Upload **/
-/*
-	let form = new FORMIDABLE.IncomingForm();
-	let language;
-	form.encoding = 'utf-8';
-	form.uploadDir = "/tmp/"
-	form.parse(_req, (err, fields, file) => {
-		log('form.parse', "Parsing file", _req);
-		language = _req.body.language
-		console.log(file.source.name)
-		console.log(file.source.path)
-		// console.log(_req.body)
-		// console.log(language);
-	})
-*/
-	// console.log("Reach")
-	// console.log(_req.body);
-	// let language = _req.body.language
-
-
-	// _res.send({test:{
-	// 	language
-	// }})
 	
 });
 

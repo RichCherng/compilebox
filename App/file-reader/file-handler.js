@@ -8,7 +8,7 @@ const FS = require('fs');
 
 
 let FileHandler = function() {
-
+	this.fileName;
 }
 
 FileHandler.prototype.parse = function(_req){
@@ -20,34 +20,40 @@ FileHandler.prototype.parse = function(_req){
 FileHandler.prototype.parse = function(_req){
 
 	console.log("parse");	
-	// create an incoming form object
-	let form = new FORMIDABLE.IncomingForm();
-	
-	// store all uploads in the /uploads directory	
-	form.uploadDir = PATH.join(__dirname, '../uploads');
 
-	// Include the extensions of the original files
-	form.type = true;
+	return new Promise( (resolve, rejct) => {
 
-	
-	form.parse(_req, (err, fields, file) => {
-		console.log("testttttttt");
-		if(err){
-			console.log(err);
-		}
-		// console.log(_req.body);	
-		// console.log(file.language);
-		console.log(file);
-		console.log(file.source.path);
+		// create an incoming form object
+		let form = new FORMIDABLE.IncomingForm();
 
-		// console.log(file.input.name);
-		// console.log(file.input.path);
-		
-		FS.rename(file.source.path, PATH.join(form.uploadDir, file.source.name), (err)=>{
+		// store all uploads in the /uploads directory
+		form.uploadDir = PATH.join(__dirname, '../uploads');
+
+		// Include the extensions of the original files
+		form.type = true;
+
+		// Reference to file-handler object
+		let self = this;
+
+		form.parse(_req, (err, fields, file) => {
 			
-			if (err) throw err;
-			console.log('renamed completed');
-		});
+			if(err){
+				console.log(err);
+				reject(err);
+			} else {
+
+				FS.rename(file.source.path, PATH.join(form.uploadDir, file.source.name), (err) => {
+					if(err){
+						reject(err);
+					}else {
+						console.log('renamed completed');
+						resolve(PATH.join(form.uploadDir, file.source.name));
+					}
+
+				})
+			}
+
+		})
 	});
 	
 }
